@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Airport Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<div class="container d-flex justify-content-center">
+    <div class="container">
+        <div class="card shadow-sm">
+            <h3 class="font-weight-bold">Airport Id:</h3>
+            <p class="card-text" th:text="${airport.id}"></p>
+            <h3 class="font-weight-bold">Airport Name:</h3>
+            <p class="card-text" th:text="${airport.airportName}"></p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="d-flex flex-column" th:each="hangar : ${airsideHangars}">
+            <div class="card shadow-sm">
+                <div class="d-flex justify-content-center">
+                    <h5 class="font-weight-bold">Hangar:</h5>
+                    <p class="card-text" th:text="${hangar.id}"></p>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h6 class="font-weight-bold">Number of planes:</h6>
+                    <p class="card-text" th:text="${hangar.planes.size()}"></p>
+                </div>
+                <div class="" th:each="plane : ${hangar.planes}">
+                    <div class="">
+                        <div class="d-flex justify-content-center">
+                            <h6 class="font-weight-bold"> Plane: </h6>
+                            <p class="card-text" th:text="${plane.planeType}"></p>
+                            <h6 class="font-weight-bold"> Fuel: </h6>
+                            <p class="card-text" th:text="${plane.planeFuelLevel}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
