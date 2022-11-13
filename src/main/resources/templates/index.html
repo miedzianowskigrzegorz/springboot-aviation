@@ -43,6 +43,30 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <div class="d-flex flex-column">
+            <div class="card shadow-sm">
+                <div class="d-flex justify-content-center">
+                    <h5 class="font-weight-bold">Workshop:</h5>
+                    <p class="card-text" th:text="${workshop.id}"></p>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h6 class="font-weight-bold">Planes in repair:</h6>
+                    <p class="card-text" th:text="${workshop.planes.size()}"></p>
+                </div>
+                <div class="" th:each="plane : ${workshop.planes}">
+                    <div class="">
+                        <div class="d-flex justify-content-center">
+                            <h6 class="font-weight-bold"> Plane: </h6>
+                            <p class="card-text" th:text="${plane.planeType}"></p>
+                            <h6 class="font-weight-bold"> Needs repair: </h6>
+                            <p class="card-text" th:text="${plane.planeSubmittedForRepair}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -11,6 +11,7 @@ import java.util.List;
 public class Airside {
 
     private List<Hangar> hangars;
+    private Workshop workshop;
 
     public Airside(@NonNull List<Hangar> hangars) {
         this.hangars = hangars;

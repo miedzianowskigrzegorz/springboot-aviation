@@ -13,4 +13,8 @@ public class Plane {
     private int planeFuelLevel;
     private boolean planeSubmittedForRepair;
 
+    private boolean mayBeServiced(Plane plane) {
+        return this.planeSubmittedForRepair;
+    }
+
 }
