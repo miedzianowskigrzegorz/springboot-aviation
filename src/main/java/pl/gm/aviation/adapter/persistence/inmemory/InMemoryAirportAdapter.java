@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import pl.gm.aviation.application.port.out.LoadAirportPort;
-import pl.gm.aviation.application.port.out.LoadAirportZonesPort;
-import pl.gm.aviation.application.port.out.LoadAirsideHangarsPort;
-import pl.gm.aviation.application.port.out.LoadAirsideWorkshopPort;
+import pl.gm.aviation.adapter.persistence.jpa.JpaHangarEntity;
+import pl.gm.aviation.adapter.persistence.jpa.JpaPlaneEntity;
+import pl.gm.aviation.application.port.out.*;
 import pl.gm.aviation.domain.Airport;
 import pl.gm.aviation.domain.airportzones.airside.Airside;
 import pl.gm.aviation.domain.airportzones.airside.Hangar;
 import pl.gm.aviation.domain.airportzones.airside.Workshop;
+import pl.gm.aviation.domain.plane.Plane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,8 @@ public class InMemoryAirportAdapter implements
         LoadAirportPort,
         LoadAirportZonesPort,
         LoadAirsideHangarsPort,
-        LoadAirsideWorkshopPort {
+        LoadAirsideWorkshopPort,
+        LoadPlanePort {
 
     private final InMemoryAirport inMemoryAirport = new InMemoryAirport();
     private final ModelMapper modelMapper;
@@ -42,7 +43,7 @@ public class InMemoryAirportAdapter implements
         return modelMapper.map(inMemoryAirport.getAirport().getAirside().getHangars().stream()
                 .filter(hangar -> hangar.getId().equals(id))
                 .findAny()
-                .orElse(null),Hangar.class);
+                .orElse(null), Hangar.class);
 
     }
 
@@ -54,6 +55,21 @@ public class InMemoryAirportAdapter implements
     @Override
     public Workshop loadWorkshop(Long id) {
         return modelMapper.map(inMemoryAirport.getAirport().getAirside().getWorkshop(), Workshop.class);
+    }
+
+    @Override
+    public Plane loadPlane(Long id) {
+        List<JpaHangarEntity> hangars = inMemoryAirport.getAirport().getAirside().getHangars();
+        JpaPlaneEntity searchedPlane = null;
+        for (JpaHangarEntity hangar : hangars) {
+            List<JpaPlaneEntity> planes = hangar.getPlanes();
+            for (JpaPlaneEntity plane : planes) {
+                if (plane.getId().equals(id)) {
+                    searchedPlane = plane;
+                }
+            }
+        }
+        return modelMapper.map(searchedPlane, Plane.class);
     }
 
 }

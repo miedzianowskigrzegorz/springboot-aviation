@@ -30,14 +30,17 @@
                     <h6 class="font-weight-bold">Number of planes:</h6>
                     <p class="card-text" th:text="${hangar.planes.size()}"></p>
                 </div>
+<!--                <a class="text-decoration-none" style="color: red" th:text="${repairStatusOk}"></a>-->
                 <div class="" th:each="plane : ${hangar.planes}">
-                    <div class="">
+                    <div class="card shadow-sm">
                         <div class="d-flex justify-content-center">
                             <h6 class="font-weight-bold"> Plane: </h6>
                             <p class="card-text" th:text="${plane.planeType}"></p>
                             <h6 class="font-weight-bold"> Fuel: </h6>
                             <p class="card-text" th:text="${plane.planeFuelLevel}"></p>
-                            <a th:href="@{'/repair/' + ${hangar.id} + '/' + ${plane.id}}">Repair</a>
+                            <h6 class="font-weight-bold"> SubmittedForRepair: </h6>
+                            <p class="card-text" th:text="${plane.planeSubmittedForRepair}"></p>
+                            <a class="btn btn-outline-success" th:href="@{'/repair/' + ${hangar.id} + '/' + ${plane.id}}">Repair</a>
                         </div>
                     </div>
                 </div>

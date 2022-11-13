@@ -13,7 +13,7 @@ public class Plane {
     private int planeFuelLevel;
     private boolean planeSubmittedForRepair;
 
-    private boolean mayBeServiced(Plane plane) {
+    public boolean mayBeServiced() {
         return this.planeSubmittedForRepair;
     }
 
