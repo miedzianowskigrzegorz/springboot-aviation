@@ -29,17 +29,21 @@ public class InMemoryAirportAdapter implements
 
     @Override
     public Airport load(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport(),Airport.class);
+        return modelMapper.map(inMemoryAirport.getAirport(), Airport.class);
     }
 
     @Override
     public Airside loadAirside(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport().getAirside(),Airside.class);
+        return modelMapper.map(inMemoryAirport.getAirport().getAirside(), Airside.class);
     }
 
     @Override
     public Hangar loadHangar(Long id) {
-        return new Hangar();
+        return modelMapper.map(inMemoryAirport.getAirport().getAirside().getHangars().stream()
+                .filter(hangar -> hangar.getId().equals(id))
+                .findAny()
+                .orElse(null),Hangar.class);
+
     }
 
     @Override
@@ -49,7 +53,7 @@ public class InMemoryAirportAdapter implements
 
     @Override
     public Workshop loadWorkshop(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport().getAirside().getWorkshop(),Workshop.class);
+        return modelMapper.map(inMemoryAirport.getAirport().getAirside().getWorkshop(), Workshop.class);
     }
 
 }

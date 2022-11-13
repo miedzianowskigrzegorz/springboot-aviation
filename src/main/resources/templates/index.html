@@ -37,6 +37,7 @@
                             <p class="card-text" th:text="${plane.planeType}"></p>
                             <h6 class="font-weight-bold"> Fuel: </h6>
                             <p class="card-text" th:text="${plane.planeFuelLevel}"></p>
+                            <a th:href="@{'/repair/' + ${hangar.id} + '/' + ${plane.id}}">Repair</a>
                         </div>
                     </div>
                 </div>
