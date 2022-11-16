@@ -1,38 +1,74 @@
 package pl.gm.aviation.adapter.persistence.inmemory;
 
-import lombok.Getter;
+import lombok.Data;
 import pl.gm.aviation.adapter.persistence.jpa.*;
+import pl.gm.aviation.domain.Airport;
+import pl.gm.aviation.domain.airportzones.airside.Airside;
+import pl.gm.aviation.domain.airportzones.airside.Hangar;
+import pl.gm.aviation.domain.airportzones.airside.Workshop;
+import pl.gm.aviation.domain.plane.Plane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+@Data
 public class InMemoryAirport {
-    @Getter private final JpaAirportEntity airport;
+     private Airport airport;
 
     InMemoryAirport() {
 
-        JpaAirsideEntity airside = new JpaAirsideEntity();
+        Airside airside = new Airside();
+        airside.setId(1L);
 
-        JpaPlaneEntity plane = new JpaPlaneEntity(1L,"Boeing 747-400",524,100,false);
-        JpaPlaneEntity plane2 = new JpaPlaneEntity(2L,"Boeing 747-400",524,100,false);
-        JpaPlaneEntity plane3 = new JpaPlaneEntity(3L,"Boeing 747-400",524,100,false);
-        JpaPlaneEntity plane4 = new JpaPlaneEntity(4L,"Boeing 747-400",524,100,false);
-        JpaPlaneEntity plane5 = new JpaPlaneEntity(5L,"Boeing 747-400",524,100,false);
-        JpaPlaneEntity plane6 = new JpaPlaneEntity(6L,"Boeing 747-400",524,100,true);
-        JpaPlaneEntity plane7 = new JpaPlaneEntity(7L,"Boeing 747-400",524,100,true);
+        Plane plane = new Plane(1L,"Boeing 747-400",524,100,false);
+        Plane plane2 = new Plane(2L,"Boeing 747-400",524,100,false);
+        Plane plane3 = new Plane(3L,"Boeing 747-400",524,100,true);
+        Plane plane4 = new Plane(4L,"Boeing 747-400",524,100,false);
+        Plane plane5 = new Plane(5L,"Boeing 747-400",524,100,true);
+        Plane plane6 = new Plane(6L,"Boeing 747-400",524,100,true);
+        Plane plane7 = new Plane(7L,"Boeing 747-400",524,100,true);
 
+        List<Hangar> hangars = new ArrayList<>();
+        hangars.add(new Hangar(1L,new ArrayList<>(List.of(plane))));
+        hangars.add(new Hangar(2L,new ArrayList<>(List.of(plane2,plane5))));
+        hangars.add(new Hangar(3L,new ArrayList<>(List.of(plane3))));
+        hangars.add(new Hangar(4L,new ArrayList<>(List.of(plane4))));
 
-        List<JpaHangarEntity> hangars = new ArrayList<>();
-        hangars.add(new JpaHangarEntity(1L,List.of(plane)));
-        hangars.add(new JpaHangarEntity(2L,List.of(plane2,plane5)));
-        hangars.add(new JpaHangarEntity(3L,List.of(plane3)));
-        hangars.add(new JpaHangarEntity(4L,List.of(plane4)));
-
-        JpaWorkshopEntity workshop = new JpaWorkshopEntity(1L,List.of(plane6,plane7));
+        Workshop workshop = new Workshop(1L,new ArrayList<Plane>(List.of(plane6,plane7)));
 
         airside.setHangars(hangars);
         airside.setWorkshop(workshop);
 
-        this.airport = new JpaAirportEntity(1L,"Chopin Airport in Warsaw",airside);
+        this.airport = new Airport(1L,"Chopin Airport in Warsaw",airside);
+
     }
+
+    public Hangar findHangarById(Long id) {
+        return airport.getAirside().getHangars().stream()
+                .filter(hangar -> hangar.getId().equals(id))
+                .findAny()
+                .orElse(null);
+    }
+
+    public Plane findPlaneById( Long id) {
+
+        List<Hangar> hangars = this.airport.getAirside().getHangars();
+        Plane searchedPlane = null;
+        for (Hangar hangar : hangars) {
+            List<Plane> planes = hangar.getPlanes();
+            for (Plane plane : planes) {
+                if (plane.getId().equals(id)) {
+                    searchedPlane = plane;
+                }
+            }
+        }
+        return searchedPlane;
+
+    }
+
+    public void upgradeHangarState(Hangar hangar) {
+
+    }
+
 }

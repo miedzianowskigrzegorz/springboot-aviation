@@ -7,7 +7,6 @@ import pl.gm.aviation.domain.plane.Plane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,22 +14,28 @@ import java.util.List;
 public class Workshop {
 
     private Long id;
-    private List<Plane> planes;
+    private List<Plane> planesForRepair;
 
-    public Workshop(@NonNull List<Plane> planes) {
-        this.planes = planes;
+    public Workshop(Long id, @NonNull List<Plane> planes) {
+        this.id = id;
+        this.planesForRepair = planes;
     }
 
     public Workshop(@NonNull Plane... planes) {
-        this.planes = new ArrayList<>(Arrays.asList(planes));
+        this.planesForRepair = new ArrayList<>(Arrays.asList(planes));
     }
 
     public List<Plane> getPlanes() {
-        return Collections.unmodifiableList(this.planes);
+        return this.planesForRepair;
     }
 
     public void addPlane(Plane plane) {
-        this.planes.add(plane);
+        this.planesForRepair.add(plane);
     }
+
+    public void removePlane(Plane plane) {
+        this.planesForRepair.remove(plane);
+    }
+
 
 }

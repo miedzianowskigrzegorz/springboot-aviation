@@ -5,8 +5,8 @@ import pl.gm.aviation.domain.plane.Plane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+
 @NoArgsConstructor
 @Data
 public class Hangar {
@@ -14,7 +14,8 @@ public class Hangar {
     private Long id;
     private List<Plane> planes;
 
-    public Hangar(@NonNull List<Plane> planes) {
+    public Hangar(Long id, @NonNull List<Plane> planes) {
+        this.id = id;
         this.planes = planes;
     }
 
@@ -23,11 +24,15 @@ public class Hangar {
     }
 
     public List<Plane> getPlanes() {
-        return Collections.unmodifiableList(this.planes);
+        return this.planes;
     }
 
     public void addPlane(Plane plane) {
         this.planes.add(plane);
+    }
+
+    public void removePlane(Plane plane) {
+        this.planes.remove(plane);
     }
 
 }

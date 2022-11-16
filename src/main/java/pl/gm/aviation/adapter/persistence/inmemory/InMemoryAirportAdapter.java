@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import pl.gm.aviation.adapter.persistence.jpa.JpaHangarEntity;
-import pl.gm.aviation.adapter.persistence.jpa.JpaPlaneEntity;
 import pl.gm.aviation.application.port.out.*;
 import pl.gm.aviation.domain.Airport;
 import pl.gm.aviation.domain.airportzones.airside.Airside;
@@ -13,7 +11,6 @@ import pl.gm.aviation.domain.airportzones.airside.Hangar;
 import pl.gm.aviation.domain.airportzones.airside.Workshop;
 import pl.gm.aviation.domain.plane.Plane;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -23,53 +20,54 @@ public class InMemoryAirportAdapter implements
         LoadAirportZonesPort,
         LoadAirsideHangarsPort,
         LoadAirsideWorkshopPort,
-        LoadPlanePort {
+        LoadPlanePort,
+        UpdateWorkshopStatePort,
+        UpdateHangarStatePort {
 
     private final InMemoryAirport inMemoryAirport = new InMemoryAirport();
-    private final ModelMapper modelMapper;
 
     @Override
     public Airport load(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport(), Airport.class);
+        return inMemoryAirport.getAirport();
     }
 
     @Override
     public Airside loadAirside(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport().getAirside(), Airside.class);
+        return inMemoryAirport.getAirport().getAirside();
     }
 
     @Override
     public Hangar loadHangar(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport().getAirside().getHangars().stream()
-                .filter(hangar -> hangar.getId().equals(id))
-                .findAny()
-                .orElse(null), Hangar.class);
+        return inMemoryAirport.findHangarById(id);
 
     }
 
     @Override
     public List<Hangar> loadHangars(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport().getAirside().getHangars(), ArrayList.class);
+        return inMemoryAirport.getAirport().getAirside().getHangars();
     }
 
     @Override
     public Workshop loadWorkshop(Long id) {
-        return modelMapper.map(inMemoryAirport.getAirport().getAirside().getWorkshop(), Workshop.class);
+        return inMemoryAirport.getAirport().getAirside().getWorkshop();
     }
 
     @Override
     public Plane loadPlane(Long id) {
-        List<JpaHangarEntity> hangars = inMemoryAirport.getAirport().getAirside().getHangars();
-        JpaPlaneEntity searchedPlane = null;
-        for (JpaHangarEntity hangar : hangars) {
-            List<JpaPlaneEntity> planes = hangar.getPlanes();
-            for (JpaPlaneEntity plane : planes) {
-                if (plane.getId().equals(id)) {
-                    searchedPlane = plane;
-                }
-            }
-        }
-        return modelMapper.map(searchedPlane, Plane.class);
+
+        return inMemoryAirport.findPlaneById(id);
+
+    }
+
+    @Override
+    public void updateWorkshopState(Workshop workshop) {
+        inMemoryAirport.getAirport().getAirside().setWorkshop(workshop);
+
+    }@Override
+    public void updateHangarState(Hangar hangar) {
+
+        inMemoryAirport.upgradeHangarState(hangar);
+
     }
 
 }

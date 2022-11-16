@@ -17,7 +17,6 @@ public class IndexController {
 
     private final InMemoryAirportAdapter inMemoryAirportAdapter;
 
-
     @ModelAttribute("airport")
     public Airport getAirport() {
         return inMemoryAirportAdapter.load(1L);
@@ -37,4 +36,5 @@ public class IndexController {
     public String getIndex() {
         return "index";
     }
+
 }

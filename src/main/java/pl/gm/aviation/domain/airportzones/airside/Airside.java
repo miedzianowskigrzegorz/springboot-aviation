@@ -4,12 +4,13 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+
 @NoArgsConstructor
 @Data
 public class Airside {
 
+    private Long id;
     private List<Hangar> hangars;
     private Workshop workshop;
 
@@ -22,7 +23,7 @@ public class Airside {
     }
 
     public List<Hangar> getHangars() {
-        return Collections.unmodifiableList(this.hangars);
+        return this.hangars;
     }
 
     public void addHangar(Hangar hangar) {
