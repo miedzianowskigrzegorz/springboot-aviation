@@ -14,33 +14,33 @@ import java.util.List;
 
 @Data
 public class InMemoryAirport {
-     private Airport airport;
+    private Airport airport;
 
     InMemoryAirport() {
 
         Airside airside = new Airside();
         airside.setId(1L);
 
-        Plane plane = new Plane(1L,"Boeing 747-400",524,100,false);
-        Plane plane2 = new Plane(2L,"Boeing 747-400",524,100,false);
-        Plane plane3 = new Plane(3L,"Boeing 747-400",524,100,true);
-        Plane plane4 = new Plane(4L,"Boeing 747-400",524,100,false);
-        Plane plane5 = new Plane(5L,"Boeing 747-400",524,100,true);
-        Plane plane6 = new Plane(6L,"Boeing 747-400",524,100,true);
-        Plane plane7 = new Plane(7L,"Boeing 747-400",524,100,true);
+        Plane plane = new Plane(1L, "Boeing 747-400", 524, 100, false);
+        Plane plane2 = new Plane(2L, "Boeing 747-400", 524, 100, false);
+        Plane plane3 = new Plane(3L, "Boeing 747-400", 524, 100, true);
+        Plane plane4 = new Plane(4L, "Boeing 747-400", 524, 100, false);
+        Plane plane5 = new Plane(5L, "Boeing 747-400", 524, 100, true);
+        Plane plane6 = new Plane(6L, "Boeing 747-400", 524, 100, true);
+        Plane plane7 = new Plane(7L, "Boeing 747-400", 524, 100, true);
 
         List<Hangar> hangars = new ArrayList<>();
-        hangars.add(new Hangar(1L,new ArrayList<>(List.of(plane))));
-        hangars.add(new Hangar(2L,new ArrayList<>(List.of(plane2,plane5))));
-        hangars.add(new Hangar(3L,new ArrayList<>(List.of(plane3))));
-        hangars.add(new Hangar(4L,new ArrayList<>(List.of(plane4))));
+        hangars.add(new Hangar(1L, new ArrayList<>(List.of(plane))));
+        hangars.add(new Hangar(2L, new ArrayList<>(List.of(plane2, plane5))));
+        hangars.add(new Hangar(3L, new ArrayList<>(List.of(plane3))));
+        hangars.add(new Hangar(4L, new ArrayList<>(List.of(plane4))));
 
-        Workshop workshop = new Workshop(1L,new ArrayList<Plane>(List.of(plane6,plane7)));
+        Workshop workshop = new Workshop(1L, new ArrayList<Plane>(List.of(plane6, plane7)));
 
         airside.setHangars(hangars);
         airside.setWorkshop(workshop);
 
-        this.airport = new Airport(1L,"Chopin Airport in Warsaw",airside);
+        this.airport = new Airport(1L, "Chopin Airport in Warsaw", airside);
 
     }
 
@@ -51,7 +51,7 @@ public class InMemoryAirport {
                 .orElse(null);
     }
 
-    public Plane findPlaneById( Long id) {
+    public Plane findPlaneInHangarById(Long id) {
 
         List<Hangar> hangars = this.airport.getAirside().getHangars();
         Plane searchedPlane = null;
@@ -63,6 +63,22 @@ public class InMemoryAirport {
                 }
             }
         }
+
+        return searchedPlane;
+
+    }
+
+    public Plane findPlaneInWorkshopById(Long id) {
+
+        List<Plane> planes = this.airport.getAirside().getWorkshop().getPlanesForRepair();
+        Plane searchedPlane = null;
+        for (Plane plane : planes) {
+            if (plane.getId().equals(id)) {
+                searchedPlane = plane;
+                break;
+            }
+        }
+
         return searchedPlane;
 
     }

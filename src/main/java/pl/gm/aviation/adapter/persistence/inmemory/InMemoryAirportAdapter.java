@@ -2,7 +2,6 @@ package pl.gm.aviation.adapter.persistence.inmemory;
 
 import lombok.RequiredArgsConstructor;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import pl.gm.aviation.application.port.out.*;
 import pl.gm.aviation.domain.Airport;
@@ -53,13 +52,6 @@ public class InMemoryAirportAdapter implements
     }
 
     @Override
-    public Plane loadPlane(Long id) {
-
-        return inMemoryAirport.findPlaneById(id);
-
-    }
-
-    @Override
     public void updateWorkshopState(Workshop workshop) {
         inMemoryAirport.getAirport().getAirside().setWorkshop(workshop);
 
@@ -70,4 +62,17 @@ public class InMemoryAirportAdapter implements
 
     }
 
+    @Override
+    public Plane loadPlaneFromHangar(Long id) {
+
+        return inMemoryAirport.findPlaneInHangarById(id);
+
+    }
+
+    @Override
+    public Plane loadPlaneFromWorkshop(Long id) {
+
+        return inMemoryAirport.findPlaneInWorkshopById(id);
+
+    }
 }

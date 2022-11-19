@@ -4,6 +4,7 @@ import pl.gm.aviation.domain.plane.Plane;
 
 public interface LoadPlanePort {
 
-    Plane loadPlane(Long id);
+    Plane loadPlaneFromHangar(Long id);
+    Plane loadPlaneFromWorkshop(Long id);
 
 }
