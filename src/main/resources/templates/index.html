@@ -20,6 +20,17 @@
         </div>
     </div>
     <div class="container">
+        <div class="card shadow-sm">
+            <div class="d-flex justify-content-center">
+                <h5 class="font-weight-bold">Current Weather:</h5>
+            </div>
+            <div class="d-flex justify-content-center" th:each="detail : ${currentWeather.currentWeatherDetails}">
+                <h6 class="font-weight-bold" th:text="${detail.key}"></h6>:
+                <p th:text="${detail.value}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <div class="d-flex flex-column" th:each="hangar : ${airsideHangars}">
             <div class="card shadow-sm">
                 <div class="d-flex justify-content-center">
@@ -30,7 +41,7 @@
                     <h6 class="font-weight-bold">Number of planes:</h6>
                     <p class="card-text" th:text="${hangar.planes.size()}"></p>
                 </div>
-<!--                <a class="text-decoration-none" style="color: red" th:text="${repairStatusOk}"></a>-->
+                <!--                <a class="text-decoration-none" style="color: red" th:text="${repairStatusOk}"></a>-->
                 <div class="" th:each="plane : ${hangar.planes}">
                     <div class="card shadow-sm">
                         <div class="">
@@ -42,7 +53,8 @@
                             <p class="card-text" th:text="${plane.planeFuelLevel}"></p>
                             <h6 class="font-weight-bold"> SubmittedForRepair: </h6>
                             <p class="card-text" th:text="${plane.planeSubmittedForRepair}"></p>
-                            <a class="btn btn-outline-success" th:href="@{'/hangar/send-for-repair/' + ${hangar.id} + '/' + ${workshop.id} + '/' + ${plane.id}}">Repair</a>
+                            <a class="btn btn-outline-success"
+                               th:href="@{'/hangar/send-for-repair/' + ${hangar.id} + '/' + ${workshop.id} + '/' + ${plane.id}}">Repair</a>
                         </div>
                     </div>
                 </div>
@@ -70,7 +82,8 @@
                             <h6 class="font-weight-bold"> Under repair: </h6>
                             <p class="card-text" th:text="${plane.planeSubmittedForRepair}"></p>
                             <a class="btn btn-outline-secondary" th:href="@{'/workshop/fix/' + ${plane.id}}">Fix</a>
-                            <a class="btn btn-outline-success" th:href="@{'/workshop/return/' + ${workshop.id} + '/' + ${plane.id}}">Return</a>
+                            <a class="btn btn-outline-success"
+                               th:href="@{'/workshop/return/' + ${workshop.id} + '/' + ${plane.id}}">Return</a>
                         </div>
                     </div>
                 </div>
