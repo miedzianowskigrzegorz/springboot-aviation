@@ -10,3 +10,4 @@ The application is used to operate and monitor the airport, planes, support. The
 - Thymeleaf
 - Lombok
 - Mapper
+- Jackson-databind (Used weather data from open meteo)
