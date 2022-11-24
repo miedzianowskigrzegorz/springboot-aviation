@@ -9,13 +9,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @Data
-public class RepairPlaneCommand {
+public class MovePlaneCommand {
 
     @NotNull
-    private final Long hangarId;
+    private final Long moveFrom;
 
     @NotNull
-    private final Long workshopId;
+    private final Long moveTo;
 
     @NotNull
     private final Long planeId;

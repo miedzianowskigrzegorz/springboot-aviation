@@ -35,4 +35,8 @@ public class Hangar {
         this.planes.remove(plane);
     }
 
+    @Override
+    public String toString() {
+        return "Hangar: " + id + " Planes: " + planes.size();
+    }
 }

@@ -22,10 +22,10 @@ public class RepairPlaneService implements RepairPlaneUseCase, ReturnToHangarUse
     private final UpdateHangarStatePort updateHangarStatePort;
 
     @Override
-    public boolean repairPlane(RepairPlaneCommand repairPlaneCommand) {
+    public boolean repairPlane(MovePlaneCommand repairPlaneCommand) {
 
-        Hangar hangar = loadAirsideHangarsPort.loadHangar(repairPlaneCommand.getHangarId());
-        Workshop workshop = loadAirsideWorkshopPort.loadWorkshop(repairPlaneCommand.getWorkshopId());
+        Hangar hangar = loadAirsideHangarsPort.loadHangar(repairPlaneCommand.getMoveFrom());
+        Workshop workshop = loadAirsideWorkshopPort.loadWorkshop(repairPlaneCommand.getMoveTo());
         Plane plane = loadPlanePort.loadPlaneFromHangar(repairPlaneCommand.getPlaneId());
 
         if(!plane.mayBeServiced()) {
@@ -42,18 +42,18 @@ public class RepairPlaneService implements RepairPlaneUseCase, ReturnToHangarUse
     }
 
     @Override
-    public boolean returnToHangar(ReturnToHangarCommand returnToHangarCommand) {
+    public boolean returnToHangar(MovePlaneCommand movePlaneCommand) {
 
-        Hangar hangar = loadAirsideHangarsPort.loadHangar(returnToHangarCommand.getHangarId());
-        Workshop workshop = loadAirsideWorkshopPort.loadWorkshop(returnToHangarCommand.getWorkshopId());
-        Plane plane = loadPlanePort.loadPlaneFromWorkshop(returnToHangarCommand.getPlaneId());
+        Workshop workshop = loadAirsideWorkshopPort.loadWorkshop(movePlaneCommand.getMoveFrom());
+        Hangar hangar = loadAirsideHangarsPort.loadHangar(movePlaneCommand.getMoveTo());
+        Plane plane = loadPlanePort.loadPlaneFromWorkshop(movePlaneCommand.getPlaneId());
 
-        if(!plane.mayBeServiced()) {
+        if(plane.mayBeServiced()) {
             return false;
         }
 
-        hangar.removePlane(plane);
-        workshop.addPlane(plane);
+        workshop.removePlane(plane);
+        hangar.addPlane(plane);
 
         updateWorkshopStatePort.updateWorkshopState(workshop);
         updateHangarStatePort.updateHangarState(hangar);

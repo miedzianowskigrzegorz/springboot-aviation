@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.gm.aviation.application.port.in.RepairPlaneCommand;
+import pl.gm.aviation.application.port.in.MovePlaneCommand;
 import pl.gm.aviation.application.port.in.RepairPlaneUseCase;
 
 @Controller
@@ -22,8 +22,8 @@ public class HangarController {
                        @PathVariable("plane.id") Long planeId,
                        Model model) {
 
-        RepairPlaneCommand repairPlaneCommand = new RepairPlaneCommand(hangarId, workshopId, planeId);
-        repairPlane.repairPlane(repairPlaneCommand);
+        MovePlaneCommand movePlaneCommand = new MovePlaneCommand(hangarId, workshopId, planeId);
+        repairPlane.repairPlane(movePlaneCommand);
 
         return "redirect:/";
 

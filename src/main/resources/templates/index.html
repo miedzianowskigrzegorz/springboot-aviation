@@ -83,7 +83,7 @@
                             <p class="card-text" th:text="${plane.planeSubmittedForRepair}"></p>
                             <a class="btn btn-outline-secondary" th:href="@{'/workshop/fix/' + ${plane.id}}">Fix</a>
                             <a class="btn btn-outline-success"
-                               th:href="@{'/workshop/return/' + ${workshop.id} + '/' + ${plane.id}}">Return</a>
+                               th:href="@{'/workshop/send/' + ${workshop.id} + '/' + ${plane.id}}">Return</a>
                         </div>
                     </div>
                 </div>
